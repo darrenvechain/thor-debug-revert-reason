@@ -20,7 +20,6 @@ const testnet = new DAppKit({
 const errorSelector = keccak256("Error(string)").toString("hex").slice(0, 8);
 const panicSelector = keccak256("Panic(uint256)").toString("hex").slice(0, 8);
 
-
 export function decodeRevertReason(data: string): string {
   try {
     if (data.startsWith(errorSelector)) {
@@ -68,7 +67,9 @@ function App() {
 
     if (!block) return;
 
-    const txIndex = block.transactions.findIndex((tx) => tx === txHash);
+    const txIndex = block.transactions.findIndex(
+      (tx) => tx.toLocaleLowerCase() === txHash.toLowerCase(),
+    );
 
     for (let i = 0; i < tx.clauses.length; i++) {
       const debugged = await axios.post(url + "/debug/tracers", {
