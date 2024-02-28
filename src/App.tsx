@@ -17,8 +17,8 @@ const testnet = new DAppKit({
   genesis: "test",
 });
 
-const errorSelector = keccak256("Error(string)").toString("hex").slice(0, 8);
-const panicSelector = keccak256("Panic(uint256)").toString("hex").slice(0, 8);
+const errorSelector = "0x" + keccak256("Error(string)").toString("hex").slice(0, 8);
+const panicSelector = "0x" + keccak256("Panic(uint256)").toString("hex").slice(0, 8);
 
 export function decodeRevertReason(data: string): string {
   try {
@@ -74,9 +74,10 @@ function App() {
     for (let i = 0; i < tx.clauses.length; i++) {
       const debugged = await axios.post(url + "/debug/tracers", {
         target: `${block.id}/${txIndex}/${i}`,
+        name: 'call',
       });
 
-      const revertReason = decodeRevertReason(debugged.data.returnValue);
+      const revertReason = decodeRevertReason(debugged.data.output);
 
       if (revertReason) {
         setRevertReason(revertReason);
