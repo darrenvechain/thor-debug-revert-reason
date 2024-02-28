@@ -20,8 +20,6 @@ const testnet = new DAppKit({
 const errorSelector = keccak256("Error(string)").toString("hex").slice(0, 8);
 const panicSelector = keccak256("Panic(uint256)").toString("hex").slice(0, 8);
 
-console.log(errorSelector);
-console.log(panicSelector);
 
 export function decodeRevertReason(data: string): string {
   try {
@@ -63,8 +61,6 @@ function App() {
     url: string,
   ) => {
     const tx = await dappKit.thor.transaction(txHash).get();
-
-    console.log(tx);
 
     if (!tx) return;
 
