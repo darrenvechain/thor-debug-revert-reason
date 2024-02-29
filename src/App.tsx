@@ -75,6 +75,9 @@ function App() {
       const debugged = await axios.post(url + "/debug/tracers", {
         target: `${block.id}/${txIndex}/${i}`,
         name: 'call',
+        config: {
+          OnlyTopCall: true,
+        }
       });
 
       const revertReason = decodeRevertReason(debugged.data.output);
